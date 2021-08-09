@@ -1,0 +1,48 @@
+version: "1"
+project:
+  name: ${env.SYSTEM_TEAMPROJECT}/_git-teste/${env.BUILD_REPOSITORY_NAME}
+  branch: ${scm.git.branch}
+  revision:
+    name: ${scm.git.commit}
+    date: ${scm.git.commit.date}
+capture:
+  build:
+    buildCommands:
+    - shell: [xcodebuild, -sdk, iphonesimulator14.4, -UseModernBuildSystem=NO, -workspace, 
+    iGoat-Swift/iGoat-Swift.xcodeproj/project.xcworkspace, -scheme, iGoat-Swift, clean, build, 
+    CODE_SIGNING_ALLOWED=NO, ENABLE_BITCODE=NO, -configuration, Release, -arch, x86_64]
+    fileSystem:
+    ears:
+      extensions: [ear]
+      files:
+      - directory: ${project.projectDir}
+    java:
+      files:
+      - directory: ${project.projectDir}
+    javascript:
+      files:
+      - directory: ${project.projectDir}
+      - excludeRegex: node_modules|bower_components|vendor|android_skd_linux
+    php:
+      files:
+      - directory: ${project.projectDir}
+      - excludeRegex: android_skd_linux
+    python:
+      files:
+      - directory: ${project.projectDir}
+      - excludeRegex: android_skd_linux
+    ruby:
+      files:
+      - directory: ${project.projectDir}
+    wars:
+      extensions: [war]
+      files:
+      - directory: ${project.projectDir}
+analyze:
+  mode: central
+  coverity:
+    cov-analyze: ["--all", "--security", "--android-security", "--enable-audit-mode"]
+install:
+  coverity:
+    version: 2021.06
+serverUrl: https://demo.polaris.synopsys.com
