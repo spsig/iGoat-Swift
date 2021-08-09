@@ -1,6 +1,6 @@
 version: "1"
 project:
-  name: ${env.SYSTEM_TEAMPROJECT}/_git-teste/${env.BUILD_REPOSITORY_NAME}
+  name: ${scm.git.repo}
   branch: ${scm.git.branch}
   revision:
     name: ${scm.git.commit}
